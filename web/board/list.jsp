@@ -2,36 +2,75 @@
   Created by IntelliJ IDEA.
   User: znxkz
   Date: 2017-05-17
-  Time: ì˜¤í›„ 1:30
+  Time: ¿ÀÈÄ 1:30
   To change this template use File | Settings | File Templates.
 --%>
 <!DOCTYPE html>
+
+<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR" %>
+<%@ page import="java.lang.*"%>
+<%@ page import="java.sql.*"%>
+
+<%
+    Connection conn = null;                                        // null·Î ÃÊ±âÈ­ ÇÑ´Ù.
+
+    try{
+        String url = "jdbc:mysql://localhost:3306/hrtf";        // »ç¿ëÇÏ·Á´Â µ¥ÀÌÅÍº£ÀÌ½º¸íÀ» Æ÷ÇÔÇÑ URL ±â¼ú
+
+        String id = "admin";                                                    // »ç¿ëÀÚ °èÁ¤
+        String pw = "Rladud8292!@#";                                            // »ç¿ëÀÚ °èÁ¤ÀÇ ÆÐ½º¿öµå
+
+        int total = 0;
+
+        Class.forName("com.mysql.jdbc.Driver");                       // µ¥ÀÌÅÍº£ÀÌ½º¿Í ¿¬µ¿ÇÏ±â À§ÇØ DriverManager¿¡ µî·ÏÇÑ´Ù.
+        conn=DriverManager.getConnection(url,id,pw);              // DriverManager °´Ã¼·ÎºÎÅÍ Connection °´Ã¼¸¦ ¾ò¾î¿Â´Ù.
+
+        System.out.println("Á¦´ë·Î ¿¬°áµÇ¾ú½À´Ï´Ù.");                            // Ä¿³Ø¼ÇÀÌ Á¦´ë·Î ¿¬°áµÇ¸é ¼öÇàµÈ´Ù.
+
+        Statement stmt = conn.createStatement();
+        String sqlCount = "SELECT COUNT(*) FROM board";
+        ResultSet rs = stmt.executeQuery(sqlCount);
+
+
+        if(rs.next()){
+            total = rs.getInt(1);
+        }
+        rs.close();
+        System.out.print("total : " + total);
+
+        String sqlList = "SELECT * FROM board";
+        rs = stmt.executeQuery(sqlList);
+
+%>
+
+
 <html lang="ko">
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <head>
     <meta http-equiv="content-type" content="text/html" ; charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- ìœ„ 3ê°œì˜ ë©”íƒ€ íƒœê·¸ëŠ” *ë°˜ë“œì‹œ* head íƒœê·¸ì˜ ì²˜ìŒì— ì™€ì•¼í•©ë‹ˆë‹¤; ì–´ë–¤ ë‹¤ë¥¸ ì½˜í…ì¸ ë“¤ì€ ë°˜ë“œì‹œ ì´ íƒœê·¸ë“¤ *ë‹¤ìŒì—* ì™€ì•¼ í•©ë‹ˆë‹¤ -->
+    <!-- À§ 3°³ÀÇ ¸ÞÅ¸ ÅÂ±×´Â *¹Ýµå½Ã* head ÅÂ±×ÀÇ Ã³À½¿¡ ¿Í¾ßÇÕ´Ï´Ù; ¾î¶² ´Ù¸¥ ÄÜÅÙÃ÷µéÀº ¹Ýµå½Ã ÀÌ ÅÂ±×µé *´ÙÀ½¿¡* ¿Í¾ß ÇÕ´Ï´Ù -->
     <title>HRTF BOARD</title>
 
 
-    <!-- í•©ì³ì§€ê³  ìµœì†Œí™”ëœ ìµœì‹  CSS -->
+    <!-- ÇÕÃÄÁö°í ÃÖ¼ÒÈ­µÈ ÃÖ½Å CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 
-    <!-- ë¶€ê°€ì ì¸ í…Œë§ˆ -->
+    <!-- ºÎ°¡ÀûÀÎ Å×¸¶ -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 
-    <!-- IE8 ì—ì„œ HTML5 ìš”ì†Œì™€ ë¯¸ë””ì–´ ì¿¼ë¦¬ë¥¼ ìœ„í•œ HTML5 shim ì™€ Respond.js -->
-    <!-- WARNING: Respond.js ëŠ” ë‹¹ì‹ ì´ file:// ì„ í†µí•´ íŽ˜ì´ì§€ë¥¼ ë³¼ ë•ŒëŠ” ë™ìž‘í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤. -->
+    <!-- IE8 ¿¡¼­ HTML5 ¿ä¼Ò¿Í ¹Ìµð¾î Äõ¸®¸¦ À§ÇÑ HTML5 shim ¿Í Respond.js -->
+    <!-- WARNING: Respond.js ´Â ´ç½ÅÀÌ file:// À» ÅëÇØ ÆäÀÌÁö¸¦ º¼ ¶§´Â µ¿ÀÛÇÏÁö ¾Ê½À´Ï´Ù. -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 
     <![endif]-->
 
-    <!-- ë¶€ê°€ì ì¸ í…Œë§ˆ -->
+    <!-- ºÎ°¡ÀûÀÎ Å×¸¶ -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
 </head>
 <body>
 
@@ -84,17 +123,53 @@
             <th style="width:10%">views</th>
         </tr>
         </thead>
+
+        <% if(total == 0){
+            %>
+        <tr>
+            <td colspan = "5">µî·ÏµÈ ±ÛÀÌ ¾ø½À´Ï´Ù.</td>
+        </tr>
+
+
+        <%
+        }else{
+            while(rs.next()){
+                int _id = rs.getInt(1);
+                String name = rs.getString(2);
+                String date = rs.getString(3);
+                int views = rs.getInt(4);%>
+
+
+        <tr>
+            <td style="width:10%"><%= id%></td>
+            <td style="width:15%"><%= id%></td>
+            <td style="width:50%"><%= name%></td>
+            <td style="width:15%"><%= date%></td>
+            <td style="width:10%"><%= views%></td>
+
+        </tr>
+
+        <%}
+        }%>
+
+
     </table>
 </div>
 
 <div class="raw pull-right">
-    <button type="button" class="btn btn-default" style="margin-right:50px">Upload</button>
+    <button type="button" class="btn btn-default" onclick="location.href='view.jsp'" style="margin-right:50px" >
+        Write</button>
 </div>
 
-<h1>hello github</h1>
+<%
+    }catch(Exception e){                                                    // ¿¹¿Ü°¡ ¹ß»ýÇÏ¸é ¿¹¿Ü »óÈ²À» Ã³¸®ÇÑ´Ù.
+        System.out.println("Á¦´ë·Î ¿¬°áµÇÁö ¾Ê¾Ò½À´Ï´Ù.!!!");
+        e.printStackTrace();
+    }
+%>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<!-- í•©ì³ì§€ê³  ìµœì†Œí™”ëœ ìµœì‹  ìžë°”ìŠ¤í¬ë¦½íŠ¸ -->
+<!-- ÇÕÃÄÁö°í ÃÖ¼ÒÈ­µÈ ÃÖ½Å ÀÚ¹Ù½ºÅ©¸³Æ® -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 </body>
 </html>
