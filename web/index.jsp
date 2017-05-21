@@ -72,7 +72,7 @@
 <div class="col-sm-5">
     <div>
         <h3>HRTF SOUND</h3>
-        <audio id="player" src="/audio/cat.mp3" loop="loop" controls="controls">
+        <audio id="player" src="/audio/snow.mp3" loop="loop" controls="controls">
             Your browser does not support the audio element. Sorry.
         </audio>
     </div>
@@ -91,7 +91,7 @@
 
 <div class="col-sm-5">
     <h3>NORMAL SOUND</h3>
-    <audio src="/audio/cat.mp3" loop="loop" controls="controls">
+    <audio src="/audio/snow.mp3" loop="loop" controls="controls">
         Your browser does not support the audio element. Sorry.
     </audio>
 </div>
@@ -112,6 +112,7 @@
             alert("pattern " + cur);
            $("#curParttern").html(cur);
         });
+
     });
 
 </script>

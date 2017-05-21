@@ -3,18 +3,24 @@
  */
 window.onload = function () {
 
-    var intervalID;
-    var audioElement, panner, masterGain;
+    var panner;
     var pattern = 1, speed = 0.05;
     var t = 0;
+    var x,y,z;
 
+    init();
 	initAudio();
 	animate();
 
 	function animate(){
 		update();
-
 	}
+
+	function init(){
+        document.getElementById("speedUp").addEventListener("click", speedUp);
+        document.getElementById("speedDown").addEventListener("click", speedDown);
+        document.getElementById("pattern").addEventListener("click", modifyPattern);
+    }
 
 
 	function initAudio(){
@@ -44,7 +50,6 @@ window.onload = function () {
         panner.connect(audioContext.destination);
         setInterval(updatePanner, 50);
         sourceNode.play();
-
 	}
 
 
@@ -54,11 +59,23 @@ window.onload = function () {
 
     function updatePanner() {
 
-		var x,y,z;
-
-		x = Math.sin(t) * Math.cos(t);
-		y = Math.cos(t) * Math.cos(t);
-		z = Math.sin(t);
+	    switch(pattern){
+            case 0:
+                x = Math.sin(t) * Math.cos(t);
+                y = Math.cos(t) * Math.cos(t);
+                z = Math.sin(t);
+                break;
+            case 1:
+                x = Math.cos(t);
+                y = 0;
+                z = Math.sin(t);
+                break;
+            case 2:
+                x = 1;
+                y = Math.cos(t);
+                z = Math.sin(t);
+                break;
+        }
 
         var cords = cartesianToInteraural(x, y, z);
         panner.update(cords.azm, cords.elv);
@@ -66,4 +83,15 @@ window.onload = function () {
         t += speed;
     }
 
+    function speedUp(){
+        speed += 0.03;
+    }
+
+    function speedDown(){
+        speed -= 0.03;
+    }
+
+    function modifyPattern(){
+        pattern = (pattern + 1) % 3;
+    }
 }

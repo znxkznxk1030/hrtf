@@ -141,7 +141,7 @@
 
 
         <tr>
-            <td style="width:10%"><%= id%></td>
+            <td style="width:10%"><%= _id%></td>
             <td style="width:15%"><%= id%></td>
             <td style="width:50%"><%= name%></td>
             <td style="width:15%"><%= date%></td>
