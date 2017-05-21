@@ -57,8 +57,6 @@
                         <li><a href="#">Something else here</a></li>
                         <li class="divider"></li>
                         <li><a href="#">Separated link</a></li>
-                        <li class="divider"></li>
-                        <li><a href="/board/list.jsp">BOARD</a></li>
                     </ul>
                 </li>
             </ul>
@@ -69,24 +67,31 @@
     </div><!-- /.container-fluid -->
 </nav>
 
-<h1>HRTF VS NORMAL</h1>
+<h1 class="center-block" style="width:500px; padding:15px;">HRTF VS NORMAL</h1>
 
 <div class="col-sm-5">
     <div>
         <h3>HRTF SOUND</h3>
-        <audio id="player" src="/audio/example.mp3" loop="loop" controls="controls">
+        <audio id="player" src="/audio/cat.mp3" loop="loop" controls="controls">
             Your browser does not support the audio element. Sorry.
         </audio>
     </div>
-    <div class="col-sm-4">
-        <button type="button" class="btn btn-primary btn-sm" id="speedUp">&uparrow;</button>
-        <button type="button" class="btn btn-primary btn-sm" id="speedDown">&downarrow;</button>
+    <div class="center-block" style="width:400px; padding:15px;">
+        <h4 class="col-sm-3">Speed</h4>
+        <button type="button" class="btn btn-primary btn-sm col-sm-1" id="speedUp" >&uparrow;</button>
+        <button type="button" class="btn btn-primary btn-sm col-sm-1" id="speedDown">&downarrow;</button>
+    </div>
+    <br/>
+    <div class="center-block" style="width:400px; padding:15px;">
+        <h4 class="col-sm-3">Pattern</h4>
+        <button type="button" class="btn btn-primary btn-sm col-sm-1" id="pattern">P</button>
+        <div id="curParttern" class="col-sm-1">1</div>
     </div>
 </div>
 
 <div class="col-sm-5">
     <h3>NORMAL SOUND</h3>
-    <audio src="/audio/example.mp3" loop="loop" controls="controls">
+    <audio src="/audio/cat.mp3" loop="loop" controls="controls">
         Your browser does not support the audio element. Sorry.
     </audio>
 </div>
@@ -99,6 +104,16 @@
 <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
         crossorigin="anonymous"></script>
 
+<script>
+    var cur = 1;
+    $(function () {
+        $("#pattern").click(function(){
+            cur = (cur + 1) % 3;
+            alert("pattern " + cur);
+           $("#curParttern").html(cur);
+        });
+    });
 
+</script>
 </body>
 </html>
