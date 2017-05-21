@@ -4,4 +4,6 @@
 
 #####IDE : intellij (web project)
 
-#####Database : MY SQL
+#####Database : CIPIC
+
+http://interface.cipic.ucdavis.edu/sound/hrtf.html
