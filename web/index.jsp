@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta http-equiv="content-type" content="text/html"; charset="utf-8">
+    <meta http-equiv="content-type" content="text/html" ; charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 위 3개의 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
@@ -21,6 +21,10 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 
     <![endif]-->
+
+    <script type="text/javascript" src="js/hrtf.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/controller.js"></script>
 
     <!-- 부가적인 테마 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
@@ -65,11 +69,36 @@
     </div><!-- /.container-fluid -->
 </nav>
 
-<h1>Hello, world!</h1>
+<h1>HRTF VS NORMAL</h1>
+
+<div class="col-sm-5">
+    <div>
+        <h3>HRTF SOUND</h3>
+        <audio id="player" src="/audio/example.mp3" loop="loop" controls="controls">
+            Your browser does not support the audio element. Sorry.
+        </audio>
+    </div>
+    <div class="col-sm-4">
+        <button type="button" class="btn btn-primary btn-sm" id="speedUp">&uparrow;</button>
+        <button type="button" class="btn btn-primary btn-sm" id="speedDown">&downarrow;</button>
+    </div>
+</div>
+
+<div class="col-sm-5">
+    <h3>NORMAL SOUND</h3>
+    <audio src="/audio/example.mp3" loop="loop" controls="controls">
+        Your browser does not support the audio element. Sorry.
+    </audio>
+</div>
 
 <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+        crossorigin="anonymous"></script>
+
+
 </body>
 </html>
