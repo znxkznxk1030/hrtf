@@ -37,12 +37,11 @@
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                     data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">HTRF LAB</a>
+            <a class="navbar-brand" href="#">3D SOUND LAB</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -51,13 +50,6 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MENU
                         <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                    </ul>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -67,33 +59,45 @@
     </div><!-- /.container-fluid -->
 </nav>
 
-<h1 class="center-block" style="width:500px; padding:15px;">HRTF VS NORMAL</h1>
+<h1 class="center-block" style="width:500px; padding:15px;">BETTING VOLUME DEMO</h1>
 
-<div class="col-sm-5">
+<div class="col-sm-12">
     <div>
-        <h3>HRTF SOUND</h3>
-        <audio id="player" src="/audio/snow.mp3" loop="loop" controls="controls">
+        <audio id="player" src="/audio/snow.mp3" loop="loop" autoplay="autoplay">
             Your browser does not support the audio element. Sorry.
         </audio>
-    </div>
-    <div class="center-block" style="width:400px; padding:15px;">
-        <h4 class="col-sm-3">Speed</h4>
-        <button type="button" class="btn btn-primary btn-sm col-sm-1" id="speedUp" >&uparrow;</button>
-        <button type="button" class="btn btn-primary btn-sm col-sm-1" id="speedDown">&downarrow;</button>
-    </div>
-    <br/>
-    <div class="center-block" style="width:400px; padding:15px;">
-        <h4 class="col-sm-3">Pattern</h4>
-        <button type="button" class="btn btn-primary btn-sm col-sm-1" id="pattern">P</button>
-        <div id="curParttern" class="col-sm-1">1</div>
-    </div>
-</div>
+        <div class=" col-sm-5 music-player">
+            <div class="control col-sm-12">
+                <div class="col-sm-4">
+                    <img class="play-btn" id="play-btn" src="/img/play.png"/>
+                    <img class="pause-btn" id="pause-btn" src="/img/pause.png"/>
+                </div>
+                <p class="col-sm-8" id="vol"></p>
+            </div>
+            <form id="gamble" class="col-sm-12">
+                <input type="number" id="bet-vol" min="0" max="0"/>
+                <img class="bet" id="start" src="/img/bet.png"/>
+            </form>
 
-<div class="col-sm-5">
-    <h3>NORMAL SOUND</h3>
-    <audio src="/audio/snow.mp3" loop="loop" controls="controls">
-        Your browser does not support the audio element. Sorry.
-    </audio>
+            <div id="rock-scissor-paper" class="col-sm-12" type="hidden">
+                <div class="col-sm-12">
+                    <img class="user" src="/img/rock.PNG" id="rock" onclick="rockScissorsPaper(0)">
+                    <img class="user" src="/img/scissors.PNG" id="scissors" onclick="rockScissorsPaper(1)">
+                    <img class="user" src="/img/paper.PNG" id="paper" onclick="rockScissorsPaper(2)">
+                </div>
+            </div>
+
+            <div id="result" class="col-sm-12" type="hidden">
+
+                <img class="result" id="user">
+                <img src="/img/vs.png" width="50" height="40">
+                <img class="result" id="com">
+            </div>
+
+        </div>
+    </div>
+
+    <br/>
 </div>
 
 <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
@@ -104,17 +108,174 @@
 <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
         crossorigin="anonymous"></script>
 
-<script>
-    var cur = 1;
-    $(function () {
-        $("#pattern").click(function(){
-            cur = (cur + 1) % 3;
-            alert("pattern " + cur);
-           $("#curParttern").html(cur);
-        });
+<style>
+    .play-btn{
+        width: 60px;
+        height: 60px;
+    }
 
+    .play-btn:hover{
+        opacity: 0.8;
+    }
+
+    .pause-btn{
+        width: 60px;
+        height: 60px;
+    }
+
+    .pause-btn:hover{
+        opacity: 0.8;
+    }
+
+
+    .music-player {
+        background: #fff9c4;
+    }
+
+    .button {
+        background: #fff9c4;
+    }
+
+    .result {
+        width: 60px;
+        height: 60px;
+    }
+
+    .user {
+        width: 60px;
+        height: 60px;
+    }
+
+    .user:hover {
+        opacity: 0.5;
+    }
+
+    .bet {
+        width: 30px;
+        height: 30px;
+    }
+
+    .bet:hover {
+        opacity: 0.5;
+    }
+</style>
+
+<script>
+    var player = document.getElementById('player');
+    player.volume = 0.1;
+
+    var figures = ["rock.PNG", "scissors.PNG", "paper.PNG"];
+
+    var bet = 0;
+
+    function showGame() {
+        if ($('#gamble').is($('#gamble').show())) {
+            $('#gamble').hide();
+        }
+
+        if ($('#rock-scissor-paper').is($('#rock-scissor-paper').hide())) {
+            $('#rock-scissor-paper').show();
+        }
+    }
+    function hideGame() {
+        if ($('#rock-scissor-paper').is($('#rock-scissor-paper').show())) {
+            $('#rock-scissor-paper').hide();
+        }
+
+        if ($('#gamble').is($('#gamble').hide())) {
+            $('#gamble').show();
+        }
+    }
+
+
+    function showResult(user, com) {
+        $('#user').attr('src', '/img/' + figures[user]);
+        $('#com').attr('src', '/img/' + figures[com]);
+
+        if ($('#result').is($('#result').hide())) {
+            $('#result').show(1000);
+        }
+    }
+
+    function hideResult() {
+        if ($('#result').is($('#result').show())) {
+            $('#result').hide();
+        }
+    }
+
+    function setLimit() {
+        $('#bet-vol').attr('max', (player.volume * 100).toString());
+        $('#bet-vol').val('0');
+    }
+
+    function showVolume() {
+        var vol = player.volume * 100;
+        $('#vol').html("Volume : " + parseInt(vol));
+    }
+
+    $(document).ready(function () {
+        hideGame();
+        setLimit();
+        hideResult();
+        showVolume();
+        $('#play-btn').hide();
+
+        $('#start').click(
+            function () {
+                hideResult();
+                bet = Number($('#bet-vol').val());
+                showGame();
+            }
+        );
+
+        $('#play-btn').click(
+            function(){
+                player.play();
+                $('#pause-btn').show();
+                $('#play-btn').hide();
+            }
+        )
+
+        $('#pause-btn').click(
+            function(){
+                player.pause();
+                $('#pause-btn').hide();
+                $('#play-btn').show();
+            }
+        )
     });
 
+
+    function rockScissorsPaper(userVal) {
+        var comVal = Math.floor(Math.random() * 3);
+        if (userVal === comVal) {
+            draw();
+        } else if ((userVal + 1) % 3 === comVal) {
+            victory();
+        } else {
+            defeat();
+        }
+
+        setLimit();
+        showVolume();
+        hideGame();
+        showResult(userVal, comVal);
+    }
+
+    function victory() {
+        player.volume = ((player.volume * 100 + bet) % 100) / 100;
+    }
+
+    function draw() {
+    }
+
+    function defeat() {
+        if (player.volume * 100 - bet <= 0) {
+            player.volume = 0;
+        } else {
+            player.volume = ((player.volume * 100 - bet) % 100) / 100;
+        }
+    }
 </script>
 </body>
 </html>
